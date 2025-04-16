@@ -37,4 +37,11 @@ public interface SetmealMapper {
      * @param ids
      */
     void deleteSetmealByIds(List<Long> ids);
+
+    /**
+     * 根据ID获取
+     * @param id
+     * @return
+     */
+    SetmealVO getById(String id);
 }
