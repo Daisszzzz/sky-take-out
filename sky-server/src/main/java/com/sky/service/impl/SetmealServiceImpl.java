@@ -13,6 +13,7 @@ import com.sky.result.PageResult;
 import com.sky.service.SetmealService;
 import com.sky.vo.DishVO;
 import com.sky.vo.SetmealVO;
+import io.swagger.models.auth.In;
 import nonapi.io.github.classgraph.fileslice.ArraySlice;
 import org.apache.http.cookie.SM;
 import org.springframework.beans.BeanUtils;
@@ -85,7 +86,7 @@ public class SetmealServiceImpl implements SetmealService {
         Setmeal setmeal = new Setmeal();
         BeanUtils.copyProperties(setmealDTO,setmeal);
         Long setmealId = setmeal.getId();
-        setmealDishMapper.update(setmeal);
+        setmealMapper.update(setmeal);
 
         // 修改套餐中的菜品
         // 删除原有套餐中的菜品
@@ -104,13 +105,28 @@ public class SetmealServiceImpl implements SetmealService {
     }
 
     @Override
-    public SetmealVO getById(String id) {
-        SetmealVO setmealVO = setmealMapper.getById(id);
+    public SetmealVO getById(Long id) {
+        SetmealVO setmealVO = new SetmealVO();
+
+        Setmeal setmeal = setmealMapper.getById(id);
 
         List<SetmealDish> dishesInSetmeal = setmealDishMapper.getDishesBySetmealId(id);
 
+        BeanUtils.copyProperties(setmeal,setmealVO);
+
         setmealVO.setSetmealDishes(dishesInSetmeal);
         return setmealVO;
+    }
+
+
+    @Override
+    public void setSellingStatus(Integer status, Long id) {
+        Setmeal setmeal = Setmeal.builder()
+                .status(status)
+                .id(id)
+                .build();
+
+        setmealMapper.update(setmeal);
     }
 
 

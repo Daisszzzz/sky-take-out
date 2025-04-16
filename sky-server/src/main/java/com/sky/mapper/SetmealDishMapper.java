@@ -23,10 +23,8 @@ public interface SetmealDishMapper {
 
     void deleteDishInSetmealByIds(List<Long> ids);
 
-    @AutoFill(OperationType.UPDATE)
-    void update(Setmeal setmeal);
 
     void deleteDishInSetmealById(Long setmealId);
 
-    List<SetmealDish> getDishesBySetmealId(String setmealId);
+    List<SetmealDish> getDishesBySetmealId(Long setmealId);
 }

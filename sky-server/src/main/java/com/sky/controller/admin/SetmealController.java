@@ -34,7 +34,7 @@ public class SetmealController {
     @PostMapping
     @ApiOperation("增加套餐")
     public Result addSetmeal(@RequestBody SetmealDTO setmealDTO) {
-        log.info("增加套餐:{}",setmealDTO);
+        log.info("增加套餐:{}", setmealDTO);
         setmealService.addSetmeal(setmealDTO);
         return Result.success();
     }
@@ -42,7 +42,7 @@ public class SetmealController {
     @GetMapping("/page")
     @ApiOperation("套餐分页查询")
     public Result<PageResult> page(SetmealPageQueryDTO setmealPageQueryDTO) {
-        log.info("套餐分页查询: {}",setmealPageQueryDTO);
+        log.info("套餐分页查询: {}", setmealPageQueryDTO);
         PageResult pageResult = setmealService.pageQuery(setmealPageQueryDTO);
         return Result.success(pageResult);
     }
@@ -50,7 +50,7 @@ public class SetmealController {
     @DeleteMapping
     @ApiOperation("删除套餐")
     public Result deleteSetmeal(@RequestParam List<Long> ids) {
-        log.info("删除套餐: {}",ids);
+        log.info("删除套餐: {}", ids);
         setmealService.deleteSetmeal(ids);
         return Result.success();
     }
@@ -58,17 +58,24 @@ public class SetmealController {
     @PutMapping
     @ApiOperation("修改套餐")
     public Result updateSetmeal(@RequestBody SetmealDTO setmealDTO) {
-        log.info("修改套餐信息：{}",setmealDTO);
+        log.info("修改套餐信息：{}", setmealDTO);
         setmealService.updateSetmeal(setmealDTO);
         return Result.success();
     }
 
     @GetMapping("/{id}")
     @ApiOperation("根据ID获取套餐")
-    public Result<SetmealVO> getById(@PathVariable String id) {
-        log.info("根据ID获取套餐：{}",id);
+    public Result<SetmealVO> getById(@PathVariable Long id) {
+        log.info("根据ID获取套餐：{}", id);
         SetmealVO setmealVO = setmealService.getById(id);
         return Result.success(setmealVO);
     }
 
+    @PostMapping("/status/{status}")
+    @ApiOperation("修改套餐状态")
+    public Result setSellingStatus(@PathVariable Integer status, Long id) {
+        log.info("修改套餐状态:{},{}", status, id);
+        setmealService.setSellingStatus(status,id);
+        return Result.success();
+    }
 }
