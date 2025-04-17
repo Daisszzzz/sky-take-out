@@ -35,7 +35,6 @@ public class CategoryController {
     public Result<String> save(@RequestBody CategoryDTO categoryDTO){
         log.info("新增分类：{}", categoryDTO);
         categoryService.save(categoryDTO);
-        System.out.println("kkk");
         return Result.success();
     }
 
