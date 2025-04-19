@@ -65,4 +65,11 @@ public interface DishMapper {
 
     List<Dish> getByCategoryId(String categoryId);
 
+    /**
+     * 动态条件查询菜品
+     * @param dish
+     * @return
+     */
+    List<Dish> list(Dish dish);
+
 }
