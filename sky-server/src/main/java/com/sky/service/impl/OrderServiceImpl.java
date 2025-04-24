@@ -134,4 +134,19 @@ public class OrderServiceImpl implements OrderService {
 
         return new PageResult(page.getTotal(),list);
     }
+
+    @Override
+    public OrderVO displayOrderDetail(Long orderId) {
+
+        OrderVO orderVO = new OrderVO();
+
+        Orders orders = orderMapper.getById(orderId);
+
+        List<OrderDetail> orderDetails = orderDetailMapper.getByOrderId(orderId);
+
+        BeanUtils.copyProperties(orders,orderVO);
+        orderVO.setOrderDetailList(orderDetails);
+
+        return orderVO;
+    }
 }
