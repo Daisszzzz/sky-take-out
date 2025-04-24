@@ -1,6 +1,8 @@
 package com.sky.service;
 
+import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.dto.OrdersSubmitDTO;
+import com.sky.result.PageResult;
 import com.sky.vo.OrderSubmitVO;
 
 /**
@@ -14,4 +16,11 @@ public interface OrderService {
 
 
     OrderSubmitVO submitOrder(OrdersSubmitDTO ordersSubmitDTO);
+
+    /**
+     * 查询历史订单
+     * @param ordersPageQueryDTO
+     * @return
+     */
+    PageResult pageQuery(OrdersPageQueryDTO ordersPageQueryDTO);
 }

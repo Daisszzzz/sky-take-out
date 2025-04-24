@@ -1,7 +1,10 @@
 package com.sky.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.context.BaseContext;
+import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.dto.OrdersSubmitDTO;
 import com.sky.entity.AddressBook;
 import com.sky.entity.OrderDetail;
@@ -13,6 +16,7 @@ import com.sky.mapper.AddressBookMapper;
 import com.sky.mapper.OrderDetailMapper;
 import com.sky.mapper.OrderMapper;
 import com.sky.mapper.ShoppingCartMapper;
+import com.sky.result.PageResult;
 import com.sky.service.OrderService;
 import com.sky.vo.OrderSubmitVO;
 import com.sky.vo.OrderVO;
@@ -100,5 +104,34 @@ public class OrderServiceImpl implements OrderService {
 
 
         return orderSubmitVO;
+    }
+
+    @Override
+    public PageResult pageQuery(OrdersPageQueryDTO ordersPageQueryDTO) {
+        // 设置分页
+        PageHelper.startPage(ordersPageQueryDTO.getPage(),ordersPageQueryDTO.getPageSize());
+        // 设置当前登录用户ID
+        ordersPageQueryDTO.setUserId(BaseContext.getCurrentId());
+
+        Page<Orders> page = orderMapper.pageQuery(ordersPageQueryDTO);
+
+        ArrayList<OrderVO> list = new ArrayList<>();
+
+        // 查询订单明细并封装如OrderVO进行响应
+        if(page != null && page.getTotal() > 0) {
+            for(Orders orders : page) {
+                Long ordersId = orders.getId();
+
+                List<OrderDetail> orderDetails = orderDetailMapper.getByOrderId(ordersId);
+
+                OrderVO orderVO = new OrderVO();
+                BeanUtils.copyProperties(orders,orderVO);
+                orderVO.setOrderDetailList(orderDetails);
+
+                list.add(orderVO);
+            }
+        }
+
+        return new PageResult(page.getTotal(),list);
     }
 }
