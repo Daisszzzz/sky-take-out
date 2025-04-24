@@ -19,4 +19,6 @@ public interface OrderMapper {
 
     @Select("select * from orders where id = #{orderId}")
     Orders getById(Long orderId);
+
+    void update(Orders orders);
 }
