@@ -66,4 +66,11 @@ public class OrderController {
         orderService.cancelOrder(id);
         return Result.success();
     }
+
+    @PostMapping("/repetition/{id}")
+    public Result reputationOrder(@PathVariable Long id) {
+        log.info("再来一单:{}",id);
+        orderService.reputation(id);
+        return Result.success();
+    }
 }

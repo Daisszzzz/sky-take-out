@@ -29,4 +29,6 @@ public interface OrderService {
 
 
     void cancelOrder(Long id);
+
+    void reputation(Long id);
 }
