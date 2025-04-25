@@ -31,4 +31,11 @@ public interface OrderService {
     void cancelOrder(Long id);
 
     void reputation(Long id);
+
+    /**
+     * 条件查询订单
+     * @param ordersPageQueryDTO
+     * @return
+     */
+    PageResult conditionSearch(OrdersPageQueryDTO ordersPageQueryDTO);
 }

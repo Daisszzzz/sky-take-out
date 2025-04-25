@@ -6,6 +6,8 @@ import com.sky.entity.Orders;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 /**
  * @ClassName OrderMapper
  * @Author lenovo
@@ -21,4 +23,6 @@ public interface OrderMapper {
     Orders getById(Long orderId);
 
     void update(Orders orders);
+
+    Page<Orders> conditionSearch(OrdersPageQueryDTO ordersPageQueryDTO);
 }
