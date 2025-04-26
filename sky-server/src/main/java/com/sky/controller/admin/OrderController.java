@@ -43,8 +43,10 @@ public class OrderController {
         return Result.success(orderStatisticsVO);
     }
 
-/*    @GetMapping("/details/{id}")
+    @GetMapping("/details/{id}")
     public Result<OrderVO> orderDetails(@PathVariable Long id) {
-        log.info("查看订单详情");
-    }*/
+        log.info("查看订单详情:{}",id);
+        OrderVO orderVO = orderService.displayOrderDetail(id);
+        return Result.success(orderVO);
+    }
 }

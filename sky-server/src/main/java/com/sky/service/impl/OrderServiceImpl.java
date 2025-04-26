@@ -143,9 +143,16 @@ public class OrderServiceImpl implements OrderService {
         Orders orders = orderMapper.getById(orderId);
 
         List<OrderDetail> orderDetails = orderDetailMapper.getByOrderId(orderId);
+        AddressBook addressBook = addressBookMapper.getById(orders.getAddressBookId());
 
+        // 这里的地址是否需要拼接?
+        orders.setAddress(addressBook.getProvinceName()
+                + addressBook.getCityName()
+                + addressBook.getDistrictName()
+                + addressBook.getDetail());
         BeanUtils.copyProperties(orders,orderVO);
         orderVO.setOrderDetailList(orderDetails);
+
 
         return orderVO;
     }
