@@ -1,5 +1,6 @@
 package com.sky.controller.admin;
 
+import com.sky.dto.OrdersConfirmDTO;
 import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
  * @Date 2025/4/22 10:53
  **/
 
-@RestController("")
+@RestController
 @RequestMapping("admin/order")
 @Api(tags = "管理端订单相关接口")
 @Slf4j
@@ -44,9 +45,18 @@ public class OrderController {
     }
 
     @GetMapping("/details/{id}")
+    @ApiOperation("订单详情接口")
     public Result<OrderVO> orderDetails(@PathVariable Long id) {
         log.info("查看订单详情:{}",id);
         OrderVO orderVO = orderService.displayOrderDetail(id);
         return Result.success(orderVO);
+    }
+
+    @PutMapping("/confirm")
+    @ApiOperation("接单相关接口")
+        public Result confirmOrder(@RequestBody OrdersConfirmDTO ordersConfirmDTO) {
+        log.info("接单:{}",ordersConfirmDTO);
+        orderService.confirmOrder(ordersConfirmDTO);
+        return Result.success();
     }
 }

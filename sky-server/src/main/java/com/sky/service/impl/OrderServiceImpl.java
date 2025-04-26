@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.context.BaseContext;
+import com.sky.dto.OrdersConfirmDTO;
 import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.dto.OrdersSubmitDTO;
 import com.sky.dto.ShoppingCartDTO;
@@ -276,6 +277,35 @@ public class OrderServiceImpl implements OrderService {
         orderStatisticsVO.setToBeConfirmed(tobeConfirmedOrders);
         orderStatisticsVO.setConfirmed(confirmedOrders);
         return orderStatisticsVO;
+    }
+
+    @Override
+    public void confirmOrder(OrdersConfirmDTO ordersConfirmDTO) {
+
+        // 自己的解法,多调用了一次数据库,这是没有必要的
+/*        Long id = ordersConfirmDTO.getId();
+
+        Orders oldOrder = orderMapper.getById(id);
+
+        if(oldOrder == null) {
+            throw new OrderBusinessException(MessageConstant.ORDER_NOT_FOUND);
+        }
+
+        if(oldOrder.getStatus() != 2) {
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+
+        oldOrder.setStatus(Orders.CONFIRMED);*/
+
+
+        // 答案中的写法
+        Orders orders = Orders.builder()
+                .id(ordersConfirmDTO.getId())
+                .status(Orders.CONFIRMED)
+                .build();
+
+
+        orderMapper.update(orders);
     }
 
     /**
