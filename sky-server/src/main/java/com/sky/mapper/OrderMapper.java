@@ -25,4 +25,7 @@ public interface OrderMapper {
     void update(Orders orders);
 
     Page<Orders> conditionSearch(OrdersPageQueryDTO ordersPageQueryDTO);
+
+    @Select("select count(id) from orders where status = #{orderStatus}")
+    Integer countStatus(Integer orderStatus);
 }

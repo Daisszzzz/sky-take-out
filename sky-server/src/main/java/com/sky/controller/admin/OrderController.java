@@ -4,6 +4,8 @@ import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.OrderService;
+import com.sky.vo.OrderStatisticsVO;
+import com.sky.vo.OrderVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -32,4 +34,17 @@ public class OrderController {
         PageResult pageResult = orderService.conditionSearch(ordersPageQueryDTO);
         return Result.success(pageResult);
     }
+
+    @GetMapping("/statistics")
+    @ApiOperation("订单数量统计相关接口")
+    public Result<OrderStatisticsVO> orderStatistics() {
+        log.info("统计各状态订单数量");
+        OrderStatisticsVO orderStatisticsVO = orderService.orderStatistics();
+        return Result.success(orderStatisticsVO);
+    }
+
+/*    @GetMapping("/details/{id}")
+    public Result<OrderVO> orderDetails(@PathVariable Long id) {
+        log.info("查看订单详情");
+    }*/
 }

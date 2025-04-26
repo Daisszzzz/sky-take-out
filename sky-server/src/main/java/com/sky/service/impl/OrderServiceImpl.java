@@ -14,6 +14,7 @@ import com.sky.exception.ShoppingCartBusinessException;
 import com.sky.mapper.*;
 import com.sky.result.PageResult;
 import com.sky.service.OrderService;
+import com.sky.vo.OrderStatisticsVO;
 import com.sky.vo.OrderSubmitVO;
 import com.sky.vo.OrderVO;
 import org.springframework.beans.BeanUtils;
@@ -254,6 +255,20 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return new PageResult(page.getTotal(),list);
+    }
+
+    @Override
+    public OrderStatisticsVO orderStatistics() {
+        Integer tobeConfirmedOrders = orderMapper.countStatus(Orders.TO_BE_CONFIRMED);
+        Integer confirmedOrders = orderMapper.countStatus(Orders.CONFIRMED);
+        Integer deliveringOrders = orderMapper.countStatus(Orders.DELIVERY_IN_PROGRESS);
+
+        OrderStatisticsVO orderStatisticsVO = new OrderStatisticsVO();
+
+        orderStatisticsVO.setDeliveryInProgress(deliveringOrders);
+        orderStatisticsVO.setToBeConfirmed(tobeConfirmedOrders);
+        orderStatisticsVO.setConfirmed(confirmedOrders);
+        return orderStatisticsVO;
     }
 
     /**
