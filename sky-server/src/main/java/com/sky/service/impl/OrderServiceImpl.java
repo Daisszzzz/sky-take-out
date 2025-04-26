@@ -4,10 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.context.BaseContext;
-import com.sky.dto.OrdersConfirmDTO;
-import com.sky.dto.OrdersPageQueryDTO;
-import com.sky.dto.OrdersSubmitDTO;
-import com.sky.dto.ShoppingCartDTO;
+import com.sky.dto.*;
 import com.sky.entity.*;
 import com.sky.exception.AddressBookBusinessException;
 import com.sky.exception.OrderBusinessException;
@@ -18,6 +15,7 @@ import com.sky.service.OrderService;
 import com.sky.vo.OrderStatisticsVO;
 import com.sky.vo.OrderSubmitVO;
 import com.sky.vo.OrderVO;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -307,6 +305,26 @@ public class OrderServiceImpl implements OrderService {
 
         orderMapper.update(orders);
     }
+
+
+    @Override
+    public void rejectOrder(OrdersRejectionDTO ordersRejectionDTO) {
+
+        // 拒单原因为空
+        if(ordersRejectionDTO.getRejectionReason() == null) {
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+
+        Orders rejectedOrder = Orders.builder()
+                .id(ordersRejectionDTO.getId())
+                .rejectionReason(ordersRejectionDTO.getRejectionReason())
+                .cancelTime(LocalDateTime.now())
+                .status(Orders.CANCELLED)
+                .build();
+
+        orderMapper.update(rejectedOrder);
+    }
+
 
     /**
      * 根据订单id获取菜品信息字符串
