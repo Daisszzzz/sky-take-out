@@ -46,4 +46,8 @@ public interface OrderService {
     void rejectOrder(OrdersRejectionDTO ordersRejectionDTO);
 
     void adminCancelOrder(OrdersCancelDTO ordersCancelDTO);
+
+    void deliveryOrders(Long id);
+
+    void complete(Long id);
 }
